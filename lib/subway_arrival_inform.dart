@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:subway_arrival_inform/arrival.dart';
 
 class SubwayArrivalInform extends StatefulWidget {
   const SubwayArrivalInform({Key? key}) : super(key: key);
@@ -10,13 +11,14 @@ class SubwayArrivalInform extends StatefulWidget {
 class _SubwayArrivalInformState extends State<SubwayArrivalInform> {
   final TextEditingController _controller = TextEditingController();
 
-  final List<String> arrivals = <String>[
-    '광운대행 - 화서방면, 수원 도착',
-    '왕십리행 - 매교방면, 수원 도착',
-    '청량리행 - 화서방면, 8번째 전역 도착',
+  List<Map<String, dynamic>> arrivals = [
+    {'trainLineNm': '광운대행 - 화서방면', 'arvlMsg2': '수원 도착',},
+    {'trainLineNm': '왕십리행 - 매교방면', 'arvlMsg2': '수원 도착',},
+    {'trainLineNm': '청량리행 - 화서방면', 'arvlMsg2': '8번째 전역 도착',},
   ];
 
   String _query = '';
+
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +63,15 @@ class _SubwayArrivalInformState extends State<SubwayArrivalInform> {
                   return Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text(arrivals[index],
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(arrivals[index]['trainLineNm'],
+                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                            Text(arrivals[index]["arvlMsg2"],
+                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                          ],
+
                         ),
                       ));
                 },
