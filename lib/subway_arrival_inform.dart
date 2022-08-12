@@ -10,7 +10,7 @@ class SubwayArrivalInform extends StatefulWidget {
 class _SubwayArrivalInformState extends State<SubwayArrivalInform> {
   final TextEditingController _controller = TextEditingController();
 
-  final List<String> arrivalInform = <String>[
+  final List<String> arrivals = <String>[
     '광운대행 - 화서방면, 수원 도착',
     '왕십리행 - 매교방면, 수원 도착',
     '청량리행 - 화서방면, 8번째 전역 도착',
@@ -31,7 +31,7 @@ class _SubwayArrivalInformState extends State<SubwayArrivalInform> {
         elevation: 0.0,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(0),
+        padding: const EdgeInsets.all(12),
         child: Column(
           children: [
             TextField(
@@ -56,13 +56,15 @@ class _SubwayArrivalInformState extends State<SubwayArrivalInform> {
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(8.0),
-                itemCount: arrivalInform.length,
+                itemCount: arrivals.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(arrivalInform[index],
+                        child: Center(
+                          child: Text(arrivals[index],
                             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                        ),
                       ));
                 },
               ),
