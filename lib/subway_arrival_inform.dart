@@ -66,7 +66,7 @@ class _SubwayArrivalInformState extends State<SubwayArrivalInform> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(arrivals[index]['trainLineNm'],
+                            Text("${arrivals[index]['trainLineNm']}, ",
                               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                             Text(arrivals[index]["arvlMsg2"],
                               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
