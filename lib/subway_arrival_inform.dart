@@ -27,7 +27,6 @@ class _SubwayArrivalInformState extends State<SubwayArrivalInform> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,53 +62,57 @@ class _SubwayArrivalInformState extends State<SubwayArrivalInform> {
               ),
             ),
             Expanded(
-              child: FutureBuilder<List<Arrival>> (
-                future: _api.getArrivals(_query),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return const Center(
-                      child: Text('에러가 났습니다.'),
-                    );
-                  }
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: Text('데이터가 없습니다.'),
-                    );
-                  }
-                  final arrivals = snapshot.data!;
-                  print(arrivals);
+              child: FutureBuilder<List<Arrival>>(
+                  future: _api.getArrivals(_query),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const Center(
+                        child: Text('에러가 났습니다.'),
+                      );
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: Text('데이터가 없습니다.'),
+                      );
+                    }
+                    final arrivals = snapshot.data!;
+                    //print(arrivals);
 
-                  if (arrivals.isEmpty) {
-                    return const Center(
-                      child: Text('데이터가 비어 있습니다.'),
+                    if (arrivals.isEmpty) {
+                      return const Center(
+                        child: Text('데이터가 비어 있습니다.'),
+                      );
+                    }
+
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(8.0),
+                      itemCount: arrivals.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Center(
+                            child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "${arrivals[index].trainLineNm}, ",
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                arrivals[index].arvlMsg2,
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ));
+                      },
                     );
-                  }
-
-                  return ListView.builder(
-                    padding: const EdgeInsets.all(8.0),
-                    itemCount: arrivals.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("${arrivals[index].trainLineNm}, ",
-                                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                                Text(arrivals[index].arvlMsg2,
-                                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                              ],
-
-                            ),
-                          ));
-                    },
-                  );
-                }
-              ),
+                  }),
             ),
           ],
         ),
