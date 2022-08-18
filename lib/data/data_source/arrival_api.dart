@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:subway_arrival_inform/arrival.dart';
+import 'package:subway_arrival_inform/data/model/arrival.dart';
 import 'package:http/http.dart' as http;
 
 class ArrivalApi{

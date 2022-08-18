@@ -2,22 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:subway_arrival_inform/data/model/arrival.dart';
 import 'package:subway_arrival_inform/data/data_source/arrival_api.dart';
 
-class SubwayArrivalInform extends StatefulWidget {
-  const SubwayArrivalInform({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<SubwayArrivalInform> createState() => _SubwayArrivalInformState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _SubwayArrivalInformState extends State<SubwayArrivalInform> {
+class _MainScreenState extends State<MainScreen> {
   final _api = ArrivalApi();
   final TextEditingController _controller = TextEditingController();
-
-  // List<Map<String, dynamic>> arrivals = [
-  //   {'trainLineNm': '광운대행 - 화서방면', 'arvlMsg2': '수원 도착',},
-  //   {'trainLineNm': '왕십리행 - 매교방면', 'arvlMsg2': '수원 도착',},
-  //   {'trainLineNm': '청량리행 - 화서방면', 'arvlMsg2': '8번째 전역 도착',},
-  // ];
 
   String _query = '';
 
@@ -93,23 +87,23 @@ class _SubwayArrivalInformState extends State<SubwayArrivalInform> {
                       itemBuilder: (BuildContext context, int index) {
                         return Center(
                             child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "${arrivals[index].trainLineNm}, ",
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "${arrivals[index].trainLineNm}, ",
+                                    style: const TextStyle(
+                                        fontSize: 20, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    arrivals[index].arrivalMassage,
+                                    style: const TextStyle(
+                                        fontSize: 20, fontWeight: FontWeight.bold),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                arrivals[index].arrivalMassage,
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ));
+                            ));
                       },
                     );
                   }),
