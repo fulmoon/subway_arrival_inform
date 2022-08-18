@@ -12,6 +12,11 @@ class MainViewModel extends ChangeNotifier{
   //로딩
   bool isLoading = false;
 
+
+  MainViewModel() {
+    fetchArrivals('서울');
+  }
+
   Future<void> fetchArrivals(String query) async {
     isLoading = true;
     notifyListeners();

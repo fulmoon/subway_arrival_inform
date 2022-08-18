@@ -5,11 +5,11 @@ part 'arrival.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Arrival {
   final String trainLineNm;
-  final String arrivalMassage;
+  final String arvlMsg2;
 
   Arrival({
     required this.trainLineNm,
-    required this.arrivalMassage,
+    required this.arvlMsg2,
 });
 
   factory Arrival.fromJson(Map<String, dynamic> json) => _$ArrivalFromJson(json);

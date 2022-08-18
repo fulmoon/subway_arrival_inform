@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:subway_arrival_inform/data/model/arrival.dart';
-import 'package:subway_arrival_inform/data/data_source/arrival_api.dart';
+import 'package:provider/provider.dart';
+import 'package:subway_arrival_inform/ui/main_view_model.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -10,10 +10,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final _api = ArrivalApi();
   final TextEditingController _controller = TextEditingController();
 
-  String _query = '';
+  // String _query = '';
 
   @override
   void dispose() {
@@ -23,6 +22,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<MainViewModel>();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -44,70 +45,51 @@ class _MainScreenState extends State<MainScreen> {
                   borderSide: BorderSide(color: Colors.blue, width: 2),
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
-                labelText: 'Search',
+                labelText: 'Search station likes: 서울',
                 suffixIcon: IconButton(
                   onPressed: () {
-                    setState(() {
-                      _query = _controller.text;
-                    });
+                    context.read<MainViewModel>().fetchArrivals(_controller.text);
                   },
                   icon: const Icon(Icons.search),
                 ),
               ),
+              onSubmitted: (String value) async {
+                context.read<MainViewModel>().fetchArrivals(_controller.text);
+              },
             ),
             Expanded(
-              child: FutureBuilder<List<Arrival>>(
-                  future: _api.getArrivals(_query),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return const Center(
-                        child: Text('에러가 났습니다.'),
-                      );
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    if (!snapshot.hasData) {
-                      return const Center(
-                        child: Text('데이터가 없습니다.'),
-                      );
-                    }
-                    final arrivals = snapshot.data!;
-                    //print(arrivals);
-
-                    if (arrivals.isEmpty) {
-                      return const Center(
-                        child: Text('데이터가 비어 있습니다.'),
-                      );
-                    }
-
-                    return ListView.builder(
-                      padding: const EdgeInsets.all(8.0),
-                      itemCount: arrivals.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: viewModel.isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        padding: const EdgeInsets.all(8.0),
+                        itemCount: viewModel.arrivals.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return SingleChildScrollView(
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.only(top: 8.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "${arrivals[index].trainLineNm}, ",
+                                    "${viewModel.arrivals[index].trainLineNm}, ",
                                     style: const TextStyle(
-                                        fontSize: 20, fontWeight: FontWeight.bold),
+                                        fontSize: 18, fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    arrivals[index].arrivalMassage,
+                                    viewModel.arrivals[index].arvlMsg2,
                                     style: const TextStyle(
-                                        fontSize: 20, fontWeight: FontWeight.bold),
+                                        fontSize: 18, fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
-                            ));
-                      },
-                    );
-                  }),
-            ),
+                            ),
+                          );
+                        },
+                      ),
+              ),
+            )
           ],
         ),
       ),

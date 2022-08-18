@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:subway_arrival_inform/ui/main_screen.dart';
-import 'package:subway_arrival_inform/ui/main_view_screen.dart';
+import 'package:subway_arrival_inform/ui/main_view_model.dart';
 
 void main() {
   runApp(
