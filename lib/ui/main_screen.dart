@@ -12,8 +12,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final TextEditingController _controller = TextEditingController();
 
-  // String _query = '';
-
   @override
   void dispose() {
     _controller.dispose();
